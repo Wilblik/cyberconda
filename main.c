@@ -18,6 +18,11 @@
 #define SPEED_INCREMENT 10
 #define INITIAL_SNAKE_CAP 8
 
+#define COLOR_BACKGROUND 34, 34, 34, 255 // Black
+#define COLOR_SNAKE_BODY 76, 175, 80, 255 // Green
+#define COLOR_SNAKE_HEAD 102, 196, 102, 255 // Light green
+#define COLOR_FOOD 255, 82, 82, 255 // Red
+
 typedef struct Point {
     int x;
     int y;
@@ -255,7 +260,7 @@ static void snake_game_update(SnakeGame* snake_game) {
 }
 
 static void snake_game_render(SnakeGame* snake_game) {
-    if (!SDL_SetRenderDrawColor(snake_game->renderer, 34, 34, 34, 255)) {
+    if (!SDL_SetRenderDrawColor(snake_game->renderer, COLOR_BACKGROUND)) {
         fprintf(stderr, "[ERROR] SDL_SetRenderDrawColor(): %s\n", SDL_GetError());
         snake_game->running = false;
         return;
@@ -267,7 +272,7 @@ static void snake_game_render(SnakeGame* snake_game) {
         return;
     }
 
-    if (!SDL_SetRenderDrawColor(snake_game->renderer, 76, 175, 80, 255)) {
+    if (!SDL_SetRenderDrawColor(snake_game->renderer, COLOR_SNAKE_BODY)) {
         fprintf(stderr, "[ERROR] SDL_SetRenderDrawColor(): %s\n", SDL_GetError());
         snake_game->running = false;
         return;
@@ -294,7 +299,7 @@ static void snake_game_render(SnakeGame* snake_game) {
                            .w = TILE_WIDTH,
                            .h = TILE_HEIGHT};
 
-    if (!SDL_SetRenderDrawColor(snake_game->renderer, 102, 196, 102, 255)) {
+    if (!SDL_SetRenderDrawColor(snake_game->renderer, COLOR_SNAKE_HEAD)) {
         fprintf(stderr, "[ERROR] SDL_SetRenderDrawColor(): %s\n", SDL_GetError());
         snake_game->running = false;
         return;
@@ -307,7 +312,7 @@ static void snake_game_render(SnakeGame* snake_game) {
     }
 
     /* Draw food */
-    if (!SDL_SetRenderDrawColor(snake_game->renderer, 255, 82, 82, 255)) { // Red
+    if (!SDL_SetRenderDrawColor(snake_game->renderer, COLOR_FOOD)) {
         fprintf(stderr, "[ERROR] SDL_SetRenderDrawColor(): %s\n", SDL_GetError());
         snake_game->running = false;
         return;
