@@ -7,15 +7,15 @@
 #include <time.h>
 
 // TODO Stop the snake from following the grid
-// TODO Make the snake travel through walls
 
 #define GAME_WIDTH 640
 #define GAME_HEIGHT 480
 #define GRID_SIZE 30
 #define TILE_WIDTH (GAME_WIDTH / GRID_SIZE)
 #define TILE_HEIGHT (GAME_HEIGHT / GRID_SIZE)
-#define INITIAL_SPEED_MS 150
-#define SPEED_INCREMENT 10
+#define INITIAL_SPEED_MS 100
+#define SPEED_INCREMENT 5
+#define MAX_SPEED 30
 #define INITIAL_SNAKE_CAP 8
 
 #define COLOR_BACKGROUND 34, 34, 34, 255 // Black
@@ -221,22 +221,19 @@ static void snake_game_update(SnakeGame* snake_game) {
     }
 
     Point snake_head = snake_game->snake->body[snake_game->snake->head];
+
     switch (snake_game->curr_snake_direction) {
-        case SNAKE_DIRECTION_UP: snake_head.y--; break;
-        case SNAKE_DIRECTION_DOWN: snake_head.y++; break;
-        case SNAKE_DIRECTION_LEFT: snake_head.x--; break;
-        case SNAKE_DIRECTION_RIGHT: snake_head.x++; break;
+        case SNAKE_DIRECTION_UP: snake_head.y = (snake_head.y - 1 + GRID_SIZE) % GRID_SIZE; break;
+        case SNAKE_DIRECTION_DOWN: snake_head.y = (snake_head.y + 1) % GRID_SIZE; break;
+        case SNAKE_DIRECTION_LEFT: snake_head.x = (snake_head.x - 1 + GRID_SIZE) % GRID_SIZE; break;
+        case SNAKE_DIRECTION_RIGHT: snake_head.x = (snake_head.x + 1) % GRID_SIZE; break;
         case SNAKE_DIRECTION_NONE:
             fprintf(stderr, "[ERROR] Unreachable case reached in %s at line %d\n", __FILE__, __LINE__);
             exit(EXIT_FAILURE);
             break;
     }
 
-    if (snake_head.x < 0 || snake_head.x >= GRID_SIZE || snake_head.y < 0 || snake_head.y >= GRID_SIZE) {
-        snake_game_setup(snake_game);
-        return;
-    }
-
+    /* Snake collision */
     for (size_t i = 1; i < snake_game->snake->len; ++i) {
         Point body_part = snake_get_body_part(snake_game->snake, i);
         if (snake_head.x == body_part.x && snake_head.y == body_part.y) {
@@ -252,7 +249,9 @@ static void snake_game_update(SnakeGame* snake_game) {
 
     if (snake_head.x == snake_game->food.x && snake_head.y == snake_game->food.y) {
         snake_game->score++;
-        snake_game->game_speed -= SPEED_INCREMENT;
+        if (snake_game->game_speed > MAX_SPEED) {
+            snake_game->game_speed -= SPEED_INCREMENT;
+        }
         snake_game_spawn_food(snake_game);
     } else {
         snake_pop_tail(snake_game->snake);
