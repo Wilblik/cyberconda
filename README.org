@@ -1,0 +1,37 @@
+* Simple Snake Game (C + SDL3)
+
+Snake game written in C using **SDL3** library for learning purposes.
+
+** Features
+- **Classic Gameplay:** Eat food to grow, avoid hitting your own tail.
+- **Toroidal World:** The map wraps around (Pac-Man style). Hitting a wall transports you to the opposite side.
+- **Dynamic Difficulty:** The game speed increases incrementally as your score gets higher.
+
+** Dependencies
+C compiler and the **SDL3** library.
+
+** Building
+#+BEGIN_SRC sh
+make
+#+END_SRC
+
+** Running
+#+BEGIN_SRC sh
+make run
+#+END_SRC
+
+** Cleanup
+#+BEGIN_SRC sh
+make clean
+#+END_SRC
+
+** Controls
+
+| Key | Action |
+|-----+--------|
+| ~UP~ | Move Up |
+| ~DOWN~ | Move Down |
+| ~LEFT~ | Move Left |
+| ~RIGHT~ | Move Right |
+| ~R~ | Restart Game |
+| ~Q~ | Quit Game |
