@@ -6,8 +6,6 @@
 #include <SDL3/SDL.h>
 #include <time.h>
 
-// TODO Stop the snake from following the grid
-
 #define GAME_WIDTH 640
 #define GAME_HEIGHT 480
 #define GRID_SIZE 30
